@@ -36,7 +36,8 @@ async function downloadVideo(e) {
       }
     } catch (error) {
       console.error(error);
-      showErrorMessage("An error occurred while downloading the video");
+      showErrorMessage(error.message);
+      // showErrorMessage("An error occurred while downloading the video");
     } finally {
       setLoading(false);
     }
