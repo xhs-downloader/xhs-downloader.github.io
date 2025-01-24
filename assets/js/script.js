@@ -27,7 +27,7 @@ async function downloadVideo(e) {
         }
       );
       const res = await response.json();
-      if (response.status === 200 && !res.msg) {
+      if (response.status === 200 && res.msg !== "解析失败，请重新解析！") {
         const videoTitle = res.data.video_desc;
         const videoUrl = res.data.video_path;
         await doDownloadVideo(videoUrl, videoTitle);
