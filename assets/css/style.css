@@ -1,0 +1,248 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff0f5;
+}
+header {
+  background-color: rgb(220 38 38);
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+.logo svg {
+  width: 4rem;
+  height: 4rem;
+  margin-right: 0.5rem;
+}
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  gap: 1rem;
+}
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+main {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+.downloader {
+  width: 100%;
+  max-width: 28rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+.downloader-content {
+  padding: 1.5rem;
+}
+.logo-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+.logo-title svg {
+  width: 3.5rem;
+  height: 3.5rem;
+  margin-right: 0.2rem;
+}
+.logo-title h1 {
+  display: flex;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: rgb(220 38 38);
+}
+.form-group {
+  margin-bottom: 1rem;
+}
+label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #4a5568;
+  margin-bottom: 0.25rem;
+}
+input[type="text"] {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+input[type="text"]:focus {
+  outline: none;
+  border-color: rgb(220 38 38);
+  box-shadow: 0 0 0 3px rgba(255, 36, 66, 0.1);
+}
+button {
+  width: 100%;
+  background-color: rgb(220 38 38);
+  color: white;
+  border: none;
+  padding: 0.625rem 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.15s ease-in-out;
+}
+button:hover {
+  background-color: #e61e3c;
+}
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 36, 66, 0.5);
+}
+button svg {
+  margin-right: 0.5rem;
+}
+.spinner {
+  display: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+  margin-right: 0.5rem;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.error {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background-color: #fff5f5;
+  border: 1px solid #fed7d7;
+  border-radius: 0.25rem;
+  color: #c53030;
+  font-size: 0.875rem;
+  display: none;
+}
+.downloader-footer {
+  background-color: #f7fafc;
+  border-top: 1px solid #edf2f7;
+  padding: 1rem 1.5rem;
+  text-align: center;
+}
+.downloader-footer p {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #718096;
+}
+footer {
+  background-color: rgb(220 38 38);
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer-links a {
+  color: white;
+  text-decoration: none;
+  margin-left: 1rem;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  border: 1px solid #888;
+  margin: 20% auto;
+  padding: 20px;
+  width: 80%;
+  max-width: 500px;
+  border-radius: 0.5rem;
+}
+.close {
+  color: #dddddd;
+  float: right;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.close:hover,
+.close:focus {
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+}
+.modal-header {
+  padding: 2px 16px;
+  background-color: rgb(220 38 38);
+  color: white;
+}
+.modal-title {
+  margin-bottom: 0;
+  line-height: 1.5;
+  font-size: 1.2rem;
+}
+.modal-body {
+  padding: 2px 16px;
+}
+.modal-footer {
+  padding: 2px 16px;
+  background-color: rgb(220 38 38);
+  color: white;
+}
+@media (max-width: 768px) {
+  nav {
+    display: none;
+  }
+
+  .card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #1f2937;
+  }
+}
