@@ -15,7 +15,7 @@ async function downloadVideo(e) {
       headers.append("Content-Type", "application/x-www-form-urlencoded");
       headers.append("token", "f59cf1bd4164841f974a24bd753e42da");
       headers.append("version", "1.0.0");
-      headers.append("time", String(new Date().getUTCSeconds()));
+      headers.append("time", String(new Date().getUTCSeconds));
       const response = await fetch(
         "https://shuiyinla.com/getVideo?agent=shuiyinla.com",
         {
