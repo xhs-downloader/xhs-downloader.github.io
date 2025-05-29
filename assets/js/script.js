@@ -48,7 +48,7 @@ async function doDownload(data) {
   if (videoUrl) {
     await zipVideos(zip, videoUrl);
   }
-  if (coversUrl.length > 0) {
+  if (coversUrl?.length > 0) {
     await zipImages(zip, coversUrl);
   }
   const zipBlob = await zip.generateAsync({ type: "blob" });
