@@ -41,9 +41,9 @@ async function download(e) {
 
 async function doDownload(data) {
   // download the video with blob
-  const videoTitle = res.data.video_desc;
-  const videoUrl = res.data.video_path;
-  const coversUrl = res.data.video_image_path;
+  const videoTitle = data.video_desc;
+  const videoUrl = data.video_path;
+  const coversUrl = data.video_image_path;
   const zip = new JSZip();
   if (videoUrl) {
     zipVideos(zip, videoUrl);
