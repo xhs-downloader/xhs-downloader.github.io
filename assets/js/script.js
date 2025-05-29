@@ -46,10 +46,10 @@ async function doDownload(data) {
   const coversUrl = data.video_image_path;
   const zip = new JSZip();
   if (videoUrl) {
-    zipVideos(zip, videoUrl);
+    await zipVideos(zip, videoUrl);
   }
   if (coversUrl.length > 0) {
-    zipImages(zip, coversUrl);
+    await zipImages(zip, coversUrl);
   }
   const zipBlob = await zip.generateAsync({ type: "blob" });
   saveBlob(zipBlob, `${videoTitle}.zip`);
