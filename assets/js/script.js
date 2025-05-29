@@ -1,11 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
-  document.querySelector(".download").addEventListener("click", downloadVideo);
-  document.querySelector(".close").addEventListener("click", () => {
-    const errorMessage = document.querySelector(".modal");
-    errorMessage.style.display = "none";
-  });
+  document.querySelector(".download").addEventListener("click", download);
 });
-async function downloadVideo(e) {
+async function download(e) {
   e.preventDefault();
   let url = document.querySelector("#url").value;
   if (url) {
@@ -28,40 +24,143 @@ async function downloadVideo(e) {
       );
       const res = await response.json();
       if (response.status === 200 && res.msg !== "解析失败，请重新解析！") {
-        const videoTitle = res.data.video_desc;
-        const videoUrl = res.data.video_path;
-        await doDownloadVideo(videoUrl, videoTitle);
+        await doDownload(res.data);
       } else {
-        showErrorMessage("Url anlalysis failed!");
+        showToast("error", "Url anlalysis failed!");
       }
     } catch (error) {
       console.error(error);
-      showErrorMessage(error.message);
-      // showErrorMessage("An error occurred while downloading the video");
+      showToast("error", error.message);
     } finally {
       setLoading(false);
     }
   } else {
-    showErrorMessage("Please enter a video url!");
+    showToast("warning", "Please enter a video url!");
   }
 }
 
-async function doDownloadVideo(url, fileName) {
+async function doDownload(data) {
   // download the video with blob
-  const reponse = await fetch(url);
-  const blob = await reponse.blob();
-  const link = document.createElement("a");
-  link.href = URL.createObjectURL(blob);
-  link.target = "_blank";
-  link.download = fileName + ".mp4";
-  link.click();
+  const videoTitle = res.data.video_desc;
+  const videoUrl = res.data.video_path;
+  const coversUrl = res.data.video_image_path;
+  const zip = new JSZip();
+  if (videoUrl) {
+    zipVideos(zip, videoUrl);
+  }
+  if (coversUrl.length > 0) {
+    zipImages(zip, coversUrl);
+  }
+  const zipBlob = await zip.generateAsync({ type: "blob" });
+  this.saveBlob(zipBlob, `${videoTitle}.zip`);
 }
 
-function showErrorMessage(message) {
-  const errorMessage = document.querySelector(".modal");
-  const errorText = document.querySelector("#errorText");
-  errorText.textContent = message;
-  errorMessage.style.display = "block";
+async function zipImages(zip, images) {
+  for (let i = 0; i < images.length; i++) {
+    let url = images[i];
+    try {
+      const res = await fetch(url.replace("http://", "https://"));
+      const blob = await res.blob();
+
+      zip.file(`image_${i + 1}.jpg`, blob, { binary: true });
+    } catch (e) {
+      console.log("Error fetching image:", e);
+      showToast("error", "Error fetching image:" + e.getMessage());
+    }
+  }
+}
+async function zipVideos(zip, videoUrl) {
+  try {
+    const res = await fetch(videoUrl.replace("http://", "https://"));
+    const blob = await res.blob();
+    zip.file(`video.mp4`, blob, { binary: true });
+  } catch (e) {
+    console.log("Error fetching video:", e);
+    showToast("error", "Error fetching video:" + e.getMessage());
+  }
+}
+
+function showToast(type, message, duration = 3000) {
+  let container = document.querySelector("#toast-container");
+  if (!container) {
+    container = document.createElement("div");
+    container.classList.add("toast-container");
+    container.classList.add("top-center");
+    container.setAttribute("role", "alert");
+    container.setAttribute("aria-live", "polite");
+    container.setAttribute("aria-atomic", "true");
+    container.id = "toast-container";
+    document.body.appendChild(container);
+  }
+  const toastId = `toast-${this.guid()}`;
+  const toast = document.createElement("div");
+  toast.id = toastId;
+  toast.className = `toast toast-${type}`;
+  toast.setAttribute("role", "status");
+  let iconSvg = "";
+  switch (type) {
+    case "success":
+      iconSvg =
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>';
+      break;
+    case "error":
+      iconSvg =
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>';
+      break;
+    case "warning":
+      iconSvg =
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
+      break;
+    case "info":
+      iconSvg =
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>';
+      break;
+  }
+
+  toast.innerHTML = `
+      <div class="toast-icon">${iconSvg}</div>
+      <div class="toast-content">${message}</div>
+      <button class="toast-close" aria-label="Close toast" onclick="removeToast('${toastId}')">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    `;
+  container.appendChild(toast);
+  setTimeout(() => {
+    this.removeToast(toastId);
+  }, duration);
+  return toastId;
+}
+
+function removeToast(id) {
+  const toast = document.getElementById(id);
+  if (!toast) return;
+  toast.classList.add("toast-removing");
+  toast.addEventListener("animationend", () => {
+    toast.remove();
+  });
+}
+
+function guid() {
+  const s4 = () => {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  };
+
+  return (
+    s4() +
+    s4() +
+    "-" +
+    s4() +
+    "-" +
+    s4() +
+    "-" +
+    s4() +
+    "-" +
+    s4() +
+    s4() +
+    s4()
+  );
 }
 
 function setLoading(isLoading) {
