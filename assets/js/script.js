@@ -52,7 +52,7 @@ async function doDownload(data) {
     zipImages(zip, coversUrl);
   }
   const zipBlob = await zip.generateAsync({ type: "blob" });
-  this.saveBlob(zipBlob, `${videoTitle}.zip`);
+  saveBlob(zipBlob, `${videoTitle}.zip`);
 }
 
 async function zipImages(zip, images) {
@@ -80,6 +80,19 @@ async function zipVideos(zip, videoUrl) {
   }
 }
 
+function saveBlob(blob, name = null) {
+  if (window.navigator.msSaveBlob) {
+    if (name) window.navigator.msSaveBlob(blob, name);
+    else window.navigator.msSaveBlob(blob);
+  } else {
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    if (name) a.download = name;
+    a.style.display = "none";
+    a.click();
+  }
+}
+
 function showToast(type, message, duration = 3000) {
   let container = document.querySelector("#toast-container");
   if (!container) {
@@ -92,7 +105,7 @@ function showToast(type, message, duration = 3000) {
     container.id = "toast-container";
     document.body.appendChild(container);
   }
-  const toastId = `toast-${this.guid()}`;
+  const toastId = `toast-${guid()}`;
   const toast = document.createElement("div");
   toast.id = toastId;
   toast.className = `toast toast-${type}`;
@@ -126,7 +139,7 @@ function showToast(type, message, duration = 3000) {
     `;
   container.appendChild(toast);
   setTimeout(() => {
-    this.removeToast(toastId);
+    removeToast(toastId);
   }, duration);
   return toastId;
 }
