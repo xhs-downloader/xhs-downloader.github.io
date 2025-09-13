@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 async function download(e) {
   e.preventDefault();
-  let url = document.querySelector("#url").value;
+  const url = document.querySelector("#url").value;
   if (url) {
     try {
       setLoading(true);
