@@ -9,27 +9,17 @@ async function download(e) {
       setLoading(true);
       const headers = new Headers();
       headers.append("Content-Type", "application/json");
-      let params = {
-        captchaInput: "",
-        captchaKey: "",
-        requestURL: url,
-      };
-      params = createSignedParamsMD5(params, "5Q0NvQxD0zdQ5RLQy5xs");
-      const response = await fetch("https://dy.kukutool.com/api/parse", {
+      headers.append(
+        "Authorization",
+        `timestamp=${Date.now()},token=Q7ZjW8Vysrx+h3bIKr5FBBokYe1LQ5XsxdpM8ZKnXZw=`
+      );
+      const response = await fetch(`https://www.v2ob.com/api?url=${url}`, {
         headers: headers,
         method: "POST",
-        body: params,
       });
       const res = await response.json();
-      if (res.status === 0 && res.data) {
-        if (res.encrypt) {
-          const data = kukudemethod(
-            res.data,
-            res.iv,
-            "12345678901234567890123456789012"
-          );
-          await doDownload(data);
-        }
+      if (res.code === 200 && res.data) {
+        await doDownload(res.data);
       } else {
         showToast("error", "Url anlalysis failed!");
       }
@@ -46,23 +36,22 @@ async function download(e) {
 
 async function doDownload(data) {
   // download the video with blob
-  const videoTitle = data.title;
+  const title = data.title;
   const zip = new JSZip();
-  if (data.type === "video") {
-    const videoUrl = data.videos?.[0];
+  if (!data.imsges) {
+    const videoUrl = data.url;
     const coverUrl = data.cover;
     if (videoUrl) {
-      await zipVideos(zip, videoTitle, videoUrl, coverUrl);
+      await zipVideos(zip, title, videoUrl, coverUrl);
     }
   } else {
-    const picsUrl = data.pics;
+    const picsUrl = data.imsges;
     if (picsUrl?.length > 0) {
-      await zipImages(zip, videoTitle, picsUrl);
+      await zipImages(zip, title, picsUrl);
     }
   }
-
   const zipBlob = await zip.generateAsync({ type: "blob" });
-  saveBlob(zipBlob, `${videoTitle}.zip`);
+  saveBlob(zipBlob, `${title}.zip`);
 }
 
 async function zipImages(zip, title, images) {
