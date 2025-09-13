@@ -43,7 +43,7 @@ async function download(e) {
         "Authorization",
         `timestamp=${timestamp},token=${arrayBufferToBase64(signature)}`
       );
-      const response = await fetch(`https://www.v2ob.com/api?url=${url}`, {
+      const response = await fetch(`https://xhs-download-api.onrender.com?url=${url}`, {
         headers: headers,
         method: "POST",
       });
