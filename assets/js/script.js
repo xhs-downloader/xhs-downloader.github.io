@@ -43,9 +43,9 @@ async function download(e) {
         "Authorization",
         `timestamp=${timestamp},token=${arrayBufferToBase64(signature)}`
       );
-      const response = await fetch(`https://xhs-download-api.onrender.com?url=${url}`, {
+      const response = await fetch(`https://xhs-download-api.onrender.com/download?url=${url}`, {
         headers: headers,
-        method: "POST",
+        method: "GET",
       });
       const res = await response.json();
       if (res.code === 200 && res.data) {
