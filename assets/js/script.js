@@ -7,11 +7,41 @@ async function download(e) {
   if (url) {
     try {
       setLoading(true);
+      const keyHex =
+        "d2f1e4c8a4b9e7f0d4c8b3a2f4e4d8c9b6a5f4e2d6c1b1a9f8e7d5c5b4a3d2e1";
+      const timestamp = Math.floor(Date.now() / 1000);
+      const s = `s3$vF!${timestamp.toString(16)}www.v2ob.com#6dKq^`;
+      const encoder = new TextEncoder();
+      const key = await crypto.subtle.importKey(
+        "raw",
+        encoder.encode(keyHex),
+        {
+          name: "HMAC",
+          hash: { name: "SHA-256" },
+        },
+        false,
+        ["sign"]
+      );
+      const signature = await crypto.subtle.sign(
+        "HMAC",
+        key,
+        encoder.encode(s)
+      );
+      // ArrayBuffer → Base64
+      function arrayBufferToBase64(buffer) {
+        let binary = "";
+        const bytes = new Uint8Array(buffer);
+        const len = bytes.byteLength;
+        for (let i = 0; i < len; i++) {
+          binary += String.fromCharCode(bytes[i]);
+        }
+        return btoa(binary);
+      }
       const headers = new Headers();
       headers.append("Content-Type", "application/json");
       headers.append(
         "Authorization",
-        `timestamp=${Date.now()},token=Q7ZjW8Vysrx+h3bIKr5FBBokYe1LQ5XsxdpM8ZKnXZw=`
+        `timestamp=${timestamp},token=${arrayBufferToBase64(signature)}`
       );
       const response = await fetch(`https://www.v2ob.com/api?url=${url}`, {
         headers: headers,
