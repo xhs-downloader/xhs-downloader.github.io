@@ -48,9 +48,20 @@ const translations = {
     "tool-1-description":
       "Chrome Extension&Theme 提供丰富的Chrome扩展和主题，助你打造个性化的浏览器体验",
     "tool-2-title": "Markdown Editor",
-    "tool-2-description": "Markdown Editor 是一个在线的Markdown编辑器，支持实时预览和导出",
+    "tool-2-description":
+      "Markdown Editor 是一个在线的Markdown编辑器，支持实时预览和导出",
     "tool-3-title": "Bing Wallpaper",
-    "tool-3-description": "Bing Wallpaper 提供每日更新的Bing壁纸，让你每天都看到不同的美景",
+    "tool-3-description":
+      "Bing Wallpaper 提供每日更新的Bing壁纸，让你每天都看到不同的美景",
+    "tool-4-title": "PixelWallpaper",
+    "tool-4-description":
+      "PixelWallpaper 是一个在线提供高清像素艺术壁纸下载",
+    "tool-5-title": "TikDown",
+    "tool-5-description":
+      "TikDown 是一个在线工具，可以帮助你下载TikTok上的视频",
+    "tool-6-title": "Online Game Site",
+    "tool-6-description":
+      "Online Game Site 是一个在线游戏平台，提供各种类型的游戏供你娱乐",
     // "tool-4-title": "内容分析工具",
     // "tool-4-description": "分析小红书内容表现和趋势",
 
@@ -119,11 +130,20 @@ const translations = {
     "tool-1-description":
       "Chrome Extension&Theme, a collection of useful Chrome extensions and themes",
     "tool-2-title": "Markdown Editor",
-    "tool-2-description": "A Markdown editor for writing and previewing Markdown content",
+    "tool-2-description":
+      "A Markdown editor for writing and previewing Markdown content",
     "tool-3-title": "Bing Wallpaper",
-    "tool-3-description": "Bing Wallpaper, a tool for downloading Bing daily wallpapers",
-    // "tool-4-title": "Content Analysis Tool",
-    // "tool-4-description": "Analyze Xiaohongshu content performance and trends",
+    "tool-3-description":
+      "Bing Wallpaper, a tool for downloading Bing daily wallpapers",
+    "tool-4-title": "PixelWallpaper",
+    "tool-4-description":
+      "PixelWallpaper is a tool for downloading high-quality pixel art wallpapers",
+    "tool-5-title": "TikDown",
+    "tool-5-description":
+      "TikDown is an online tool that helps you download TikTok videos",
+    "tool-6-title": "Online Game Site",
+    "tool-6-description":
+      "Online Game Site is a collection of online games",
 
     "footer-about-title": "Xiaohongshu Downloader",
     "footer-about-description":
