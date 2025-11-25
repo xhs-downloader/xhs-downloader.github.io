@@ -6,7 +6,7 @@ const translations = {
     "nav-faq": "常见问题",
     "nav-tools": "其他工具",
 
-    "hero-title": "免费下载小红书视频和图片",
+    "hero-title": "下载小红书视频和图片",
     "hero-description":
       "简单易用的小红书内容下载工具，支持无水印下载视频、图片和文案，无需安装任何软件",
     "url-input": "粘贴小红书分享链接...",
@@ -15,6 +15,10 @@ const translations = {
     "feature-2": "无水印下载",
     "feature-3": "无需安装",
     "feature-4": "安全可靠",
+
+    "what-is-xhs-dl-title": "什么是小红书下载器？",
+    "what-is-xhs-dl-description":
+      "小红书下载器是一款免费的在线工具，可以帮助您无水印下载小红书（RED）上的视频和图片。它直接在浏览器中运行，支持手机和电脑端使用，无需安装或登录。只需从小红书应用中粘贴链接，工具就会为您获取高质量的媒体文件。本网站仅供教育和个人备份使用，不会在我们的服务器上存储任何下载的内容。",
 
     "how-to-title": "如何使用",
     "how-to-description": "只需简单三步，即可下载小红书内容",
@@ -54,20 +58,17 @@ const translations = {
     "tool-3-description":
       "Bing Wallpaper 提供每日更新的Bing壁纸，让你每天都看到不同的美景",
     "tool-4-title": "PixelWallpaper",
-    "tool-4-description":
-      "PixelWallpaper 是一个在线提供高清像素艺术壁纸下载",
+    "tool-4-description": "PixelWallpaper 是一个在线提供高清像素艺术壁纸下载",
     "tool-5-title": "TikDown",
     "tool-5-description":
       "TikDown 是一个在线工具，可以帮助你下载TikTok上的视频",
     "tool-6-title": "Online Game Site",
     "tool-6-description":
       "Online Game Site 是一个在线游戏平台，提供各种类型的游戏供你娱乐",
-    // "tool-4-title": "内容分析工具",
-    // "tool-4-description": "分析小红书内容表现和趋势",
 
     "footer-about-title": "小红书下载器",
     "footer-about-description":
-      "免费、安全、易用的小红书内容下载工具，支持无水印下载视频、图片和文案。",
+      "免费、安全、易用的小红书内容下载工具，支持无水印下载视频、图片。",
     "footer-links-title": "快速链接",
     "footer-link-home": "首页",
     "footer-link-how-to": "使用教程",
@@ -84,7 +85,7 @@ const translations = {
 
     "nav-tools": "Other Tools",
 
-    "hero-title": "Download Xiaohongshu Videos & Images for Free",
+    "hero-title": "Download Xiaohongshu Videos & Images",
     "hero-description":
       "Easy-to-use Xiaohongshu content download tool, supports watermark-free download of videos, images and text. No software installation required.",
     "url-input": "Paste Xiaohongshu share link...",
@@ -93,6 +94,10 @@ const translations = {
     "feature-2": "Watermark-Free",
     "feature-3": "No Installation",
     "feature-4": "Safe & Secure",
+
+    "what-is-xhs-dl-title": "What is Xiaohongshu Downloader?",
+    "what-is-xhs-dl-description":
+      "Xiaohongshu Downloader is a free online tool that allows you to download videos and images from Xiaohongshu (RED) without watermarks. It works directly in your browser, supports mobile and desktop, and does not require any installation or login. Simply paste the URL from the Xiaohongshu app, and the tool will fetch high-quality media files for you. This website is designed for educational and personal backup use, and does not store any downloaded content on our servers.",
 
     "how-to-title": "How to Use",
     "how-to-description": "Download Xiaohongshu content in just 3 simple steps",
@@ -142,12 +147,11 @@ const translations = {
     "tool-5-description":
       "TikDown is an online tool that helps you download TikTok videos",
     "tool-6-title": "Online Game Site",
-    "tool-6-description":
-      "Online Game Site is a collection of online games",
+    "tool-6-description": "Online Game Site is a collection of online games",
 
     "footer-about-title": "Xiaohongshu Downloader",
     "footer-about-description":
-      "Free, safe and easy-to-use Xiaohongshu content download tool, supports watermark-free download of videos, images and text.",
+      "Free, safe and easy-to-use Xiaohongshu content download tool, supports watermark-free download of videos and images.",
     "footer-links-title": "Quick Links",
     "footer-link-home": "Home",
     "footer-link-how-to": "How to Use",
