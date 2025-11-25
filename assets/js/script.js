@@ -73,6 +73,7 @@ const translations = {
     "footer-link-home": "首页",
     "footer-link-how-to": "使用教程",
     "footer-link-faq": "常见问题",
+    "footer-legal-title": "法律信息",
     "footer-link-privacy": "隐私政策",
     "footer-link-about": "关于",
     "copyright-text": "©2025 小红书下载器 - 保留所有权利",
