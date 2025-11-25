@@ -74,6 +74,8 @@ const translations = {
     "footer-link-how-to": "使用教程",
     "footer-link-faq": "常见问题",
     "footer-legal-title": "法律信息",
+    "link-privacy": "隐私政策",
+    "link-about": "关于",
     "footer-link-privacy": "隐私政策",
     "footer-link-about": "关于",
     "copyright-text": "©2025 小红书下载器 - 保留所有权利",
@@ -158,6 +160,8 @@ const translations = {
     "footer-link-how-to": "How to Use",
     "footer-link-faq": "FAQ",
     "footer-legal-title": "Legal",
+    "link-privacy": "Privacy Policy",
+    "link-about": "About Us",
     "footer-link-privacy": "Privacy Policy",
     "footer-link-about": "About Us",
     "copyright-text": "©2025 Xiaohongshu Downloader - All Rights Reserved",
@@ -178,11 +182,13 @@ function switchLanguage(lang) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const defultLang = "en";
+  const defultLang = localStorage.getItem("lang") || "en";
+
   switchLanguage(defultLang);
   document
     .querySelector(`.language-option[data-lang='${defultLang}']`)
     .classList.add("active");
+
   document.querySelectorAll(".language-option").forEach((option) => {
     option.addEventListener("click", function () {
       const lang = this.getAttribute("data-lang");
@@ -191,6 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
         opt.classList.remove("active");
       });
       this.classList.add("active");
+      localStorage.setItem("lang", lang);
       switchLanguage(lang);
     });
   });
