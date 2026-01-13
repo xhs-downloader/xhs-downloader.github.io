@@ -35,8 +35,9 @@ a:hover {
 
 .container {
   max-width: 1200px;
+  min-height: 60vh;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 20px;
 }
 
 header {
@@ -52,6 +53,9 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 15px 0;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .logo {
@@ -196,7 +200,7 @@ nav a:hover {
 }
 
 .home-section {
-  padding: 80px 0;
+  padding: 20px 0;
 }
 
 .home-section-title {
@@ -365,6 +369,15 @@ footer {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.copyright-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .footer-column {
@@ -710,6 +723,26 @@ h3 {
   background-color: rgba(0, 0, 0, 0.05);
 }
 
+.not-found-title {
+  text-align: center;
+  font-weight: 700;
+  font-size: 3.75rem;
+  line-height: 1;
+}
+
+.not-found-sub-title {
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  margin-bottom: 1rem;
+}
+.not-found-text {
+  text-align: center;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  margin-bottom: 2rem;
+}
 /* Dark mode */
 @media (prefers-color-scheme: dark) {
   body {

@@ -66,8 +66,8 @@
 
   <body>
     <header>
-      <div class="container header-container">
-        <a href="#" class="logo">
+      <div class="header-container">
+        <a href="https://xhs-downloader.github.io" class="logo">
           <span id="logo-text"></span>
         </a>
         <div class="mobile-menu">☰</div>
@@ -108,74 +108,75 @@
       </div>
     </header>
 
-    <section class="hero" id="what-is-xhs-dl">
-      <div class="container">
-        <div class="home-section-title hero-title">
-          <h1 id="what-is-xhs-dl-title"></h1>
-          <p id="what-is-xhs-dl-description"></p>
-        </div>
-      </div>
-    </section>
-
-    <section class="home-section" id="how-to">
-      <div class="container">
-        <div class="home-section-title">
-          <h2 id="how-to-title"></h2>
-          <p id="how-to-description"></p>
-        </div>
-
-        <div class="how-to-steps">
-          <div class="step">
-            <div class="step-number">1</div>
-            <h3 id="step-1-title"></h3>
-            <p id="step-1-description"></p>
-          </div>
-
-          <div class="step">
-            <div class="step-number">2</div>
-            <h3 id="step-2-title"></h3>
-            <p id="step-2-description"></p>
-          </div>
-
-          <div class="step">
-            <div class="step-number">3</div>
-            <h3 id="step-3-title"></h3>
-            <p id="step-3-description"></p>
+    <div class="container">
+      <section class="hero" id="what-is-xhs-dl">
+        <div>
+          <div class="home-section-title hero-title">
+            <h1 id="what-is-xhs-dl-title"></h1>
+            <p id="what-is-xhs-dl-description"></p>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="home-section" id="download">
-      <div class="container">
-        <div class="home-section-title">
-          <h2 id="hero-title"></h2>
-          <!-- <p id="hero-description"></p> -->
-          <div class="download-box">
-            <div class="url-input">
-              <input type="text" id="url-input" />
-              <button class="download">
-                <div class="spinner"></div>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                  <polyline points="7 10 12 15 17 10"></polyline>
-                  <line x1="12" y1="15" x2="12" y2="3"></line>
-                </svg>
-                <span id="download-button">Download</span>
-              </button>
+      <section class="home-section" id="how-to">
+        <div>
+          <div class="home-section-title">
+            <h2 id="how-to-title"></h2>
+            <p id="how-to-description"></p>
+          </div>
+
+          <div class="how-to-steps">
+            <div class="step">
+              <div class="step-number">1</div>
+              <h3 id="step-1-title"></h3>
+              <p id="step-1-description"></p>
             </div>
 
-            <!-- <div class="home-feature">
+            <div class="step">
+              <div class="step-number">2</div>
+              <h3 id="step-2-title"></h3>
+              <p id="step-2-description"></p>
+            </div>
+
+            <div class="step">
+              <div class="step-number">3</div>
+              <h3 id="step-3-title"></h3>
+              <p id="step-3-description"></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="home-section" id="download">
+        <div>
+          <div class="home-section-title">
+            <h2 id="hero-title"></h2>
+            <!-- <p id="hero-description"></p> -->
+            <div class="download-box">
+              <div class="url-input">
+                <input type="text" id="url-input" />
+                <button class="download">
+                  <div class="spinner"></div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                  </svg>
+                  <span id="download-button">Download</span>
+                </button>
+              </div>
+
+              <!-- <div class="home-feature">
               <div>
                 <span class="home-feature-icon">✓</span>
                 <span id="feature-1"></span>
@@ -193,145 +194,145 @@
                 <span id="feature-4"></span>
               </div>
             </div> -->
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="home-section" id="faq">
-      <div class="container">
-        <div class="home-section-title">
-          <h2 id="faq-title"></h2>
-          <p id="faq-description"></p>
-        </div>
-
-        <div class="faq-container">
-          <div class="faq-item active">
-            <div class="faq-question">
-              <span id="faq-1-question"></span>
-              <span>-</span>
-            </div>
-            <div class="faq-answer">
-              <p id="faq-1-answer"></p>
-            </div>
-          </div>
-
-          <div class="faq-item active">
-            <div class="faq-question">
-              <span id="faq-2-question"></span>
-              <span>-</span>
-            </div>
-            <div class="faq-answer">
-              <p id="faq-2-answer"></p>
-            </div>
-          </div>
-
-          <div class="faq-item active">
-            <div class="faq-question">
-              <span id="faq-3-question"></span>
-              <span>-</span>
-            </div>
-            <div class="faq-answer">
-              <p id="faq-3-answer"></p>
-            </div>
-          </div>
-
-          <div class="faq-item active">
-            <div class="faq-question">
-              <span id="faq-4-question"></span>
-              <span>-</span>
-            </div>
-            <div class="faq-answer">
-              <p id="faq-4-answer"></p>
-            </div>
-          </div>
-
-          <div class="faq-item active">
-            <div class="faq-question">
-              <span id="faq-5-question"></span>
-              <span>-</span>
-            </div>
-            <div class="faq-answer">
-              <p id="faq-5-answer"></p>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="home-section tools-section" id="tools">
-      <div class="container">
-        <div class="home-section-title">
-          <h2 id="tools-title"></h2>
-          <p id="tools-description"></p>
+      <section class="home-section" id="faq">
+        <div>
+          <div class="home-section-title">
+            <h2 id="faq-title"></h2>
+            <p id="faq-description"></p>
+          </div>
+
+          <div class="faq-container">
+            <div class="faq-item active">
+              <div class="faq-question">
+                <span id="faq-1-question"></span>
+                <span>-</span>
+              </div>
+              <div class="faq-answer">
+                <p id="faq-1-answer"></p>
+              </div>
+            </div>
+
+            <div class="faq-item active">
+              <div class="faq-question">
+                <span id="faq-2-question"></span>
+                <span>-</span>
+              </div>
+              <div class="faq-answer">
+                <p id="faq-2-answer"></p>
+              </div>
+            </div>
+
+            <div class="faq-item active">
+              <div class="faq-question">
+                <span id="faq-3-question"></span>
+                <span>-</span>
+              </div>
+              <div class="faq-answer">
+                <p id="faq-3-answer"></p>
+              </div>
+            </div>
+
+            <div class="faq-item active">
+              <div class="faq-question">
+                <span id="faq-4-question"></span>
+                <span>-</span>
+              </div>
+              <div class="faq-answer">
+                <p id="faq-4-answer"></p>
+              </div>
+            </div>
+
+            <div class="faq-item active">
+              <div class="faq-question">
+                <span id="faq-5-question"></span>
+                <span>-</span>
+              </div>
+              <div class="faq-answer">
+                <p id="faq-5-answer"></p>
+              </div>
+            </div>
+          </div>
         </div>
+      </section>
 
-        <div class="tools-grid">
-          <div class="tool-card">
-            <a href="https://chrome-tool.github.io/">
-              <div class="tool-icon">
-                <img src="./assets/images/chrome-tool.png" />
-              </div>
-              <h3 id="tool-1-title"></h3>
-              <p id="tool-1-description"></p>
-            </a>
+      <section class="home-section tools-section" id="tools">
+        <div>
+          <div class="home-section-title">
+            <h2 id="tools-title"></h2>
+            <p id="tools-description"></p>
           </div>
-          <div class="tool-card">
-            <a href="https://mdtool.eu.org/">
-              <div class="tool-icon">
-                <img src="./assets/images/markdown.png" />
-              </div>
-              <h3 id="tool-2-title"></h3>
-              <p id="tool-2-description"></p>
-            </a>
-          </div>
-          <div class="tool-card">
-            <a href="https://wallpapers-collection.github.io/bing-wallpaper">
-              <div class="tool-icon">
-                <img src="./assets/images/bing-wallpaper.png" />
-              </div>
-              <h3 id="tool-3-title"></h3>
-              <p id="tool-3-description"></p>
-            </a>
-          </div>
-          <div class="tool-card">
-            <a href="https://pixel-wallpaper.github.io/">
-              <div class="tool-icon">
-                <img src="./assets/images/pixel-wallpaper.png" />
-              </div>
-              <h3 id="tool-4-title"></h3>
-              <p id="tool-4-description"></p>
-            </a>
-          </div>
-          <div class="tool-card">
-            <a href="https://tiktok-download.github.io/">
-              <div class="tool-icon">
-                <img src="./assets/images/tiktok-download.png" />
-              </div>
-              <h3 id="tool-5-title"></h3>
-              <p id="tool-5-description"></p>
-            </a>
-          </div>
-          <div class="tool-card">
-            <a href="https://html-online-game.github.io/">
-              <div class="tool-icon">
-                <img src="./assets/images/html-online-game.png" />
-              </div>
-              <h3 id="tool-6-title"></h3>
-              <p id="tool-6-description"></p>
-            </a>
-          </div>
-          <!-- <div class="tool-card">
+
+          <div class="tools-grid">
+            <div class="tool-card">
+              <a href="https://chrome-tool.github.io/">
+                <div class="tool-icon">
+                  <img src="./assets/images/chrome-tool.png" />
+                </div>
+                <h3 id="tool-1-title"></h3>
+                <p id="tool-1-description"></p>
+              </a>
+            </div>
+            <div class="tool-card">
+              <a href="https://mdtool.eu.org/">
+                <div class="tool-icon">
+                  <img src="./assets/images/markdown.png" />
+                </div>
+                <h3 id="tool-2-title"></h3>
+                <p id="tool-2-description"></p>
+              </a>
+            </div>
+            <div class="tool-card">
+              <a href="https://wallpapers-collection.github.io/bing-wallpaper">
+                <div class="tool-icon">
+                  <img src="./assets/images/bing-wallpaper.png" />
+                </div>
+                <h3 id="tool-3-title"></h3>
+                <p id="tool-3-description"></p>
+              </a>
+            </div>
+            <div class="tool-card">
+              <a href="https://pixel-wallpaper.github.io/">
+                <div class="tool-icon">
+                  <img src="./assets/images/pixel-wallpaper.png" />
+                </div>
+                <h3 id="tool-4-title"></h3>
+                <p id="tool-4-description"></p>
+              </a>
+            </div>
+            <div class="tool-card">
+              <a href="https://tiktok-download.github.io/">
+                <div class="tool-icon">
+                  <img src="./assets/images/tiktok-download.png" />
+                </div>
+                <h3 id="tool-5-title"></h3>
+                <p id="tool-5-description"></p>
+              </a>
+            </div>
+            <div class="tool-card">
+              <a href="https://html-online-game.github.io/">
+                <div class="tool-icon">
+                  <img src="./assets/images/html-online-game.png" />
+                </div>
+                <h3 id="tool-6-title"></h3>
+                <p id="tool-6-description"></p>
+              </a>
+            </div>
+            <!-- <div class="tool-card">
             <div class="tool-icon">🔍</div>
             <h3 id="tool-4-title"></h3>
             <p id="tool-4-description"></p>
           </div> -->
+          </div>
         </div>
-      </div>
-    </section>
-
+      </section>
+    </div>
     <footer>
-      <div class="container footer-container">
+      <div class="footer-container">
         <div class="footer-column">
           <h3 id="footer-about-title"></h3>
           <p id="footer-about-description"></p>
@@ -376,7 +377,7 @@
         </div>
       </div>
 
-      <div class="container">
+      <div class="copyright-container">
         <div class="copyright">
           <p id="copyright-text"></p>
         </div>
