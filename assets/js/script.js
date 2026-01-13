@@ -76,9 +76,11 @@ const translations = {
     "footer-legal-title": "法律信息",
     "link-privacy": "隐私政策",
     "link-about": "关于",
+    "terms-about": "条項",
     "footer-link-privacy": "隐私政策",
     "footer-link-about": "关于",
-    "copyright-text": "©2025 小红书下载器 - 保留所有权利",
+    "footer-terms-about": "条項",
+    "copyright-text": "©2026 小红书下载器 - 保留所有权利",
   },
   en: {
     "logo-text": "Xiaohongshu Downloader",
@@ -162,9 +164,11 @@ const translations = {
     "footer-legal-title": "Legal",
     "link-privacy": "Privacy Policy",
     "link-about": "About Us",
+    "terms-about": "Terms",
     "footer-link-privacy": "Privacy Policy",
     "footer-link-about": "About Us",
-    "copyright-text": "©2025 Xiaohongshu Downloader - All Rights Reserved",
+    "footer-terms-about": "Terms",
+    "copyright-text": "©2026 Xiaohongshu Downloader - All Rights Reserved",
   },
 };
 
