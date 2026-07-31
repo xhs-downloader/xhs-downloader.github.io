@@ -172,6 +172,12 @@ const translations = {
   },
 };
 
+const API_BASE =
+  window.location.hostname === "localhost" ||
+  window.location.hostname === "127.0.0.1"
+    ? "http://127.0.0.1:5000"
+    : "https://xhs-download-api.onrender.com";
+
 function switchLanguage(lang) {
   Object.keys(translations[lang]).forEach((key) => {
     const element = document.getElementById(key);
@@ -243,62 +249,16 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 async function download(e) {
   e.preventDefault();
-  const url = document.querySelector("#url-input").value;
+  const url = document.querySelector("#url-input").value?.trim();
   if (url) {
     try {
       setLoading(true);
-      const keyHex =
-        "d2f1e4c8a4b9e7f0d4c8b3a2f4e4d8c9b6a5f4e2d6c1b1a9f8e7d5c5b4a3d2e1";
-      const timestamp = Math.floor(Date.now() / 1000);
-      const s = `s3$vF!${timestamp.toString(16)}www.v2ob.com#6dKq^`;
-      const encoder = new TextEncoder();
-      const key = await crypto.subtle.importKey(
-        "raw",
-        encoder.encode(keyHex),
-        {
-          name: "HMAC",
-          hash: { name: "SHA-256" },
-        },
-        false,
-        ["sign"]
-      );
-      const signature = await crypto.subtle.sign(
-        "HMAC",
-        key,
-        encoder.encode(s)
-      );
-      // ArrayBuffer → Base64
-      function arrayBufferToBase64(buffer) {
-        let binary = "";
-        const bytes = new Uint8Array(buffer);
-        const len = bytes.byteLength;
-        for (let i = 0; i < len; i++) {
-          binary += String.fromCharCode(bytes[i]);
-        }
-        return btoa(binary);
-      }
-      const headers = new Headers();
-      headers.append("Content-Type", "application/json");
-      headers.append(
-        "Authorization",
-        `timestamp=${timestamp},token=${arrayBufferToBase64(signature)}`
-      );
-      const response = await fetch(
-        `https://xhs-download-api.onrender.com/download?url=${url}`,
-        {
-          headers: headers,
-          method: "GET",
-        }
-      );
-      const res = await response.json();
-      if (res.code === 200 && res.data) {
-        await doDownload(res.data);
-      } else {
-        showToast("error", "Url anlalysis failed!");
-      }
+      const infoRes = await getVideoInfo(url);
+      await doDownload(infoRes.data);
+      showToast("success", "Download completed");
     } catch (error) {
       console.error(error);
-      showToast("error", error.message);
+      showToast("error", error?.message || "Download failed");
     } finally {
       setLoading(false);
     }
@@ -307,22 +267,97 @@ async function download(e) {
   }
 }
 
-async function doDownload(data) {
-  // download the video with blob
-  const title = data.title;
-  const zip = new JSZip();
-  if (!data.imsges) {
-    const videoUrl = data.url;
-    const coverUrl = data.cover;
-    if (videoUrl) {
-      await zipVideos(zip, title, videoUrl, coverUrl);
+async function getVideoInfo(url) {
+  const qs = new URLSearchParams({ url });
+  const response = await fetch(`${API_BASE}/get_info?${qs.toString()}`, {
+    method: "GET",
+  });
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(result?.technical_error || result?.error || "URL analysis failed");
+  }
+  if (!result?.data || !Array.isArray(result.data.formats)) {
+    throw new Error("Video info missing");
+  }
+  return result;
+}
+
+function sanitizeFileName(name) {
+  return (name || "xhs_video")
+    .replace(/[\\/:*?"<>|]/g, "_")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function pickBestVideoFormat(formats) {
+  if (!Array.isArray(formats)) {
+    return null;
+  }
+
+  const videoFormats = formats.filter((f) => {
+    const ext = (f?.ext || "").toLowerCase();
+    return !!f?.url && (ext === "mp4" || ext === "mov" || ext === "m4v");
+  });
+
+  if (!videoFormats.length) {
+    return null;
+  }
+
+  videoFormats.sort((a, b) => {
+    const aSigned = String(a?.url || "").includes("sign=") ? 1 : 0;
+    const bSigned = String(b?.url || "").includes("sign=") ? 1 : 0;
+    const fa = Number(a?.fps || 0);
+    const fb = Number(b?.fps || 0);
+    const sa = Number(a?.filesize || 0);
+    const sb = Number(b?.filesize || 0);
+    if (bSigned !== aSigned) return bSigned - aSigned;
+    if (fb !== fa) return fb - fa;
+    return sb - sa;
+  });
+
+  return videoFormats[0];
+}
+
+async function fetchBlobViaApiDownload(rawUrl) {
+  const qs = new URLSearchParams({ url: rawUrl });
+  const response = await fetch(`${API_BASE}/download?${qs.toString()}`, {
+    method: "GET",
+  });
+  if (!response.ok) {
+    let message = `Download failed (${response.status})`;
+    try {
+      const payload = await response.json();
+      message = payload?.error || message;
+    } catch {
+      // Keep default message for non-JSON responses.
     }
-  } else {
-    const picsUrl = data.imsges;
-    if (picsUrl?.length > 0) {
-      await zipImages(zip, title, picsUrl);
+    throw new Error(message);
+  }
+  return response.blob();
+}
+
+async function doDownload(data) {
+  const title = sanitizeFileName(data?.title);
+  const zip = new JSZip();
+
+  const bestVideo = pickBestVideoFormat(data?.formats || []);
+  if (!bestVideo?.url) {
+    throw new Error("No downloadable video stream found");
+  }
+
+  const videoBlob = await fetchBlobViaApiDownload(bestVideo.url);
+  zip.file(`${title}.mp4`, videoBlob, { binary: true });
+
+  if (data?.thumbnail) {
+    try {
+      const coverBlob = await fetchBlobViaApiDownload(data.thumbnail);
+      zip.file(`${title}.jpg`, coverBlob, { binary: true });
+    } catch (e) {
+      console.log("Skip cover image:", e);
     }
   }
+
   const zipBlob = await zip.generateAsync({ type: "blob" });
   saveBlob(zipBlob, `${title}.zip`);
 }
@@ -337,7 +372,7 @@ async function zipImages(zip, title, images) {
       zip.file(`${title}_${i + 1}.jpg`, blob, { binary: true });
     } catch (e) {
       console.log("Error fetching image:", e);
-      showToast("error", "Error fetching image:" + e.getMessage());
+      showToast("error", "Error fetching image:" + e.message);
     }
   }
 }
@@ -352,7 +387,7 @@ async function zipVideos(zip, title, videoUrl, coverUrl) {
     zip.file(`${title}.jpg`, coverblob, { binary: true });
   } catch (e) {
     console.log("Error fetching video:", e);
-    showToast("error", "Error fetching video:" + e.getMessage());
+    showToast("error", "Error fetching video:" + e.message);
   }
 }
 
