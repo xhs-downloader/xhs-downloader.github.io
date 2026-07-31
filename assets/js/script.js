@@ -400,36 +400,58 @@ async function fetchBlobViaApiDownload(rawUrl) {
 }
 
 async function doDownload(data) {
-  const title = removeTrailingPostId(data?.title) || "xhs_video";
+  const title = removeTrailingPostId(data?.title) || "xhs_media";
   const zip = new JSZip();
   let hasMedia = false;
 
-  const bestVideo = pickBestVideoFormat(data?.formats || []);
-  if (bestVideo?.url) {
-    const videoBlob = await fetchBlobViaApiDownload(bestVideo.url);
-    zip.file(`${title}.mp4`, videoBlob, { binary: true });
-    hasMedia = true;
-  }
+  const isImagePost =
+    data?.post_type === "image" ||
+    (Array.isArray(data?.images) && data.images.length > 0 && !data?.formats?.length);
 
-  const imageUrls = extractImageUrls(data);
-  if (imageUrls.length > 0) {
-    for (let i = 0; i < imageUrls.length; i++) {
+  if (isImagePost) {
+    const images = Array.isArray(data.images) ? data.images : [];
+    for (let i = 0; i < images.length; i++) {
+      const imgUrl = typeof images[i] === "string" ? images[i] : images[i]?.url;
+      if (!imgUrl) continue;
       try {
-        const imageBlob = await fetchBlobViaApiDownload(imageUrls[i]);
+        const imageBlob = await fetchBlobViaApiDownload(imgUrl);
         zip.file(`${title}${i + 1}.jpg`, imageBlob, { binary: true });
         hasMedia = true;
       } catch (e) {
         console.log("Skip image:", e);
       }
     }
-  }
+    if (data?.description) {
+      zip.file(`${title}.txt`, data.description);
+    }
+  } else {
+    const bestVideo = pickBestVideoFormat(data?.formats || []);
+    if (bestVideo?.url) {
+      const videoBlob = await fetchBlobViaApiDownload(bestVideo.url);
+      zip.file(`${title}.mp4`, videoBlob, { binary: true });
+      hasMedia = true;
+    }
 
-  if (bestVideo?.url && data?.thumbnail && imageUrls.length === 0) {
-    try {
-      const coverBlob = await fetchBlobViaApiDownload(data.thumbnail);
-      zip.file(`${title}1.jpg`, coverBlob, { binary: true });
-    } catch (e) {
-      console.log("Skip cover image:", e);
+    const imageUrls = extractImageUrls(data);
+    if (imageUrls.length > 0) {
+      for (let i = 0; i < imageUrls.length; i++) {
+        try {
+          const imageBlob = await fetchBlobViaApiDownload(imageUrls[i]);
+          zip.file(`${title}${i + 1}.jpg`, imageBlob, { binary: true });
+          hasMedia = true;
+        } catch (e) {
+          console.log("Skip image:", e);
+        }
+      }
+    }
+
+    if (bestVideo?.url && data?.thumbnail && imageUrls.length === 0) {
+      try {
+        const coverBlob = await fetchBlobViaApiDownload(data.thumbnail);
+        zip.file(`${title}1.jpg`, coverBlob, { binary: true });
+      } catch (e) {
+        console.log("Skip cover image:", e);
+      }
     }
   }
 
