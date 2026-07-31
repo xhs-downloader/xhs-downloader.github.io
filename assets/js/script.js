@@ -277,8 +277,8 @@ async function getVideoInfo(url) {
   if (!response.ok) {
     throw new Error(result?.technical_error || result?.error || "URL analysis failed");
   }
-  if (!result?.data || !Array.isArray(result.data.formats)) {
-    throw new Error("Video info missing");
+  if (!result?.data) {
+    throw new Error("Media info missing");
   }
   return result;
 }
@@ -287,6 +287,15 @@ function sanitizeFileName(name) {
   return (name || "xhs_video")
     .replace(/[\\/:*?"<>|]/g, "_")
     .replace(/\s+/g, " ")
+    .trim();
+}
+
+function removeTrailingPostId(name) {
+  const normalized = sanitizeFileName(name);
+  return normalized
+    .replace(/([_-]?postid[_-]?\d{6,})$/i, "")
+    .replace(/([_-]\d{8,})$/, "")
+    .replace(/[_-\s]+$/, "")
     .trim();
 }
 
@@ -319,6 +328,59 @@ function pickBestVideoFormat(formats) {
   return videoFormats[0];
 }
 
+function extractImageUrls(data) {
+  const candidates = [
+    data?.images,
+    data?.image_list,
+    data?.image_urls,
+    data?.pics,
+    data?.photo_list,
+    data?.photos,
+  ];
+
+  const urls = [];
+
+  const pushUrl = (value) => {
+    if (typeof value === "string" && value.trim()) {
+      urls.push(value.trim());
+      return;
+    }
+    if (value && typeof value === "object") {
+      const maybeUrl =
+        value.url ||
+        value.src ||
+        value.image ||
+        value.origin ||
+        value.original ||
+        value.large ||
+        value.download_url;
+      if (typeof maybeUrl === "string" && maybeUrl.trim()) {
+        urls.push(maybeUrl.trim());
+      }
+    }
+  };
+
+  candidates.forEach((entry) => {
+    if (Array.isArray(entry)) {
+      entry.forEach(pushUrl);
+    } else {
+      pushUrl(entry);
+    }
+  });
+
+  const unique = [];
+  const seen = new Set();
+  urls.forEach((u) => {
+    const key = u.replace("http://", "https://");
+    if (!seen.has(key)) {
+      seen.add(key);
+      unique.push(key);
+    }
+  });
+
+  return unique;
+}
+
 async function fetchBlobViaApiDownload(rawUrl) {
   const qs = new URLSearchParams({ url: rawUrl });
   const response = await fetch(`${API_BASE}/download?${qs.toString()}`, {
@@ -338,24 +400,41 @@ async function fetchBlobViaApiDownload(rawUrl) {
 }
 
 async function doDownload(data) {
-  const title = sanitizeFileName(data?.title);
+  const title = removeTrailingPostId(data?.title) || "xhs_video";
   const zip = new JSZip();
+  let hasMedia = false;
 
   const bestVideo = pickBestVideoFormat(data?.formats || []);
-  if (!bestVideo?.url) {
-    throw new Error("No downloadable video stream found");
+  if (bestVideo?.url) {
+    const videoBlob = await fetchBlobViaApiDownload(bestVideo.url);
+    zip.file(`${title}.mp4`, videoBlob, { binary: true });
+    hasMedia = true;
   }
 
-  const videoBlob = await fetchBlobViaApiDownload(bestVideo.url);
-  zip.file(`${title}.mp4`, videoBlob, { binary: true });
+  const imageUrls = extractImageUrls(data);
+  if (imageUrls.length > 0) {
+    for (let i = 0; i < imageUrls.length; i++) {
+      try {
+        const imageBlob = await fetchBlobViaApiDownload(imageUrls[i]);
+        zip.file(`${title}${i + 1}.jpg`, imageBlob, { binary: true });
+        hasMedia = true;
+      } catch (e) {
+        console.log("Skip image:", e);
+      }
+    }
+  }
 
-  if (data?.thumbnail) {
+  if (bestVideo?.url && data?.thumbnail && imageUrls.length === 0) {
     try {
       const coverBlob = await fetchBlobViaApiDownload(data.thumbnail);
-      zip.file(`${title}.jpg`, coverBlob, { binary: true });
+      zip.file(`${title}1.jpg`, coverBlob, { binary: true });
     } catch (e) {
       console.log("Skip cover image:", e);
     }
+  }
+
+  if (!hasMedia) {
+    throw new Error("No downloadable media found");
   }
 
   const zipBlob = await zip.generateAsync({ type: "blob" });
@@ -363,13 +442,14 @@ async function doDownload(data) {
 }
 
 async function zipImages(zip, title, images) {
+  const cleanTitle = removeTrailingPostId(title) || "xhs_video";
   for (let i = 0; i < images.length; i++) {
     let url = images[i];
     try {
       const res = await fetch(url.replace("http://", "https://"));
       const blob = await res.blob();
 
-      zip.file(`${title}_${i + 1}.jpg`, blob, { binary: true });
+      zip.file(`${cleanTitle}${i + 1}.jpg`, blob, { binary: true });
     } catch (e) {
       console.log("Error fetching image:", e);
       showToast("error", "Error fetching image:" + e.message);
@@ -377,14 +457,15 @@ async function zipImages(zip, title, images) {
   }
 }
 async function zipVideos(zip, title, videoUrl, coverUrl) {
+  const cleanTitle = removeTrailingPostId(title) || "xhs_video";
   try {
     const videoRes = await fetch(videoUrl.replace("http://", "https://"));
     const videoblob = await videoRes.blob();
 
     const coverRes = await fetch(coverUrl.replace("http://", "https://"));
     const coverblob = await coverRes.blob();
-    zip.file(`${title}.mp4`, videoblob, { binary: true });
-    zip.file(`${title}.jpg`, coverblob, { binary: true });
+    zip.file(`${cleanTitle}.mp4`, videoblob, { binary: true });
+    zip.file(`${cleanTitle}1.jpg`, coverblob, { binary: true });
   } catch (e) {
     console.log("Error fetching video:", e);
     showToast("error", "Error fetching video:" + e.message);
