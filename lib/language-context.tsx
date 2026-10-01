@@ -1,6 +1,13 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+  type ReactNode,
+} from "react";
 import { translations } from "@/lib/translations";
 
 export type Language = "zh" | "en";
@@ -24,7 +31,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const t = useCallback(
     (key: string): string =>
       translations[lang]?.[key as keyof (typeof translations)["en"]] || key,
-    [lang]
+    [lang],
   );
 
   const switchLanguage = useCallback((newLang: Language) => {
@@ -41,6 +48,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
 export function useTranslation() {
   const ctx = useContext(LanguageContext);
-  if (!ctx) throw new Error("useTranslation must be used inside LanguageProvider");
+  if (!ctx)
+    throw new Error("useTranslation must be used inside LanguageProvider");
   return ctx;
 }

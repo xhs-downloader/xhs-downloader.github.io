@@ -138,9 +138,7 @@ export default function DownloadSection() {
       </div>
 
       {toastMessage && (
-        <div className={`toast toast-${toastType}`}>
-          {toastMessage}
-        </div>
+        <div className={`toast toast-${toastType}`}>{toastMessage}</div>
       )}
     </section>
   );

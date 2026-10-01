@@ -40,7 +40,10 @@ export default function FAQSection() {
         <div className="faq-container">
           {faqItems.map((item, index) => (
             <div key={item.key} className="faq-item active">
-              <div className="faq-question" onClick={() => handleToggleFAQ(index)}>
+              <div
+                className="faq-question"
+                onClick={() => handleToggleFAQ(index)}
+              >
                 <span>{t(`faq-${item.key}-question`)}</span>
                 <span>-</span>
               </div>

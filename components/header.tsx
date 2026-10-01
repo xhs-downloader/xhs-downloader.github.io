@@ -14,9 +14,15 @@ export default function Header() {
         <Link href="/" className="logo">
           <span>{t("logo-text")}</span>
         </Link>
-        <div className="mobile-menu" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-          �?
-        </div>
+        <button
+          type="button"
+          className="mobile-menu"
+          aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+          aria-expanded={mobileMenuOpen}
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        >
+          ☰
+        </button>
         <nav className={`nav-menu ${mobileMenuOpen ? "active" : ""}`}>
           <ul>
             <li>

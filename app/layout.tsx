@@ -8,7 +8,13 @@ export const metadata: Metadata = {
   title: "Xiaohongshu Downloader - Download Videos and Images",
   description:
     "Free and easy-to-use Xiaohongshu downloader tool. Download videos and images without watermarks directly from Xiaohongshu (RED) to your device. No installation required.",
-  keywords: ["xiaohongshu", "downloader", "video download", "image download", "RED"],
+  keywords: [
+    "xiaohongshu",
+    "downloader",
+    "video download",
+    "image download",
+    "RED",
+  ],
   robots: { index: true, follow: true },
   icons: {
     icon: [
@@ -22,6 +28,9 @@ export const metadata: Metadata = {
     description:
       "Download Xiaohongshu videos and images without watermarks. Free, safe and easy to use.",
     type: "website",
+  },
+  verification: {
+    google: "nScZP2sBUKhxwKfvtKwCxQkPMCIOOvYNT35E5W2pDn8",
   },
 };
 

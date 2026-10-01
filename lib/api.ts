@@ -48,7 +48,9 @@ export async function getVideoInfo(url: string) {
   const result = await response.json();
 
   if (!response.ok) {
-    throw new Error(result?.technical_error || result?.error || "URL analysis failed");
+    throw new Error(
+      result?.technical_error || result?.error || "URL analysis failed",
+    );
   }
   if (!result?.data) {
     throw new Error("Media info missing");
